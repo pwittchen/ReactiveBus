@@ -1,5 +1,5 @@
 # ReactiveBus
-Reactive Event Bus for Java &amp; Android applications using RxJava2 under the hood
+🚍 Reactive Event Bus for JVM & Android applications built with RxJava 2
 
 References
 ----------
