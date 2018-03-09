@@ -19,11 +19,6 @@ sourceSets {
   }
 }
 
-repositories {
-  mavenCentral()
-  jcenter()
-}
-
 dependencies {
   implementation project(':library')
 }
