@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.7
+
+sourceSets {
+  main {
+    java {
+      srcDirs 'src/main/java'
+    }
+  }
+
+  test {
+    java {
+      srcDir 'src/test/java'
+    }
+  }
+}
+
+repositories {
+  mavenCentral()
+  jcenter()
+}
+
+dependencies {
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'com.google.truth:truth:0.27'
+}

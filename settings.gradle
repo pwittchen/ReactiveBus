@@ -1,0 +1,4 @@
+rootProject.name = 'reactivebus'
+include 'library'
+include 'app'
+

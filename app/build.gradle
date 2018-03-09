@@ -1,0 +1,29 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+
+sourceCompatibility = 1.7
+mainClassName = "com.github.pwittchen.reactivebus.app.Main"
+
+sourceSets {
+  main {
+    java {
+      srcDirs 'src/main/java'
+    }
+  }
+
+  test {
+    java {
+      srcDir 'src/test/java'
+    }
+  }
+}
+
+repositories {
+  mavenCentral()
+  jcenter()
+}
+
+dependencies {
+  implementation project(':library')
+}
