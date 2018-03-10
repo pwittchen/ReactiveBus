@@ -1,5 +1,5 @@
 # ReactiveBus
-🚍 Reactive Event Bus for JVM & Android applications built with RxJava 2
+🚍 Simple Reactive Event Bus for JVM & Android applications built with RxJava 2
 
 This project is compatible with Java 1.7+.
 
