@@ -15,7 +15,7 @@ public class Main {
 
     bus.send(new Event("This event won't be published!"));
 
-    final Disposable events = bus.observe().subscribe(new Consumer<Event>() {
+    final Disposable events = bus.receive().subscribe(new Consumer<Event>() {
       @Override public void accept(Event event) {
         System.out.println(event.toString());
       }

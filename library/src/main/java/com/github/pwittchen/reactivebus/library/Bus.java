@@ -5,5 +5,5 @@ import io.reactivex.Flowable;
 public interface Bus {
   void send(Event event);
 
-  Flowable<Event> observe();
+  Flowable<Event> receive();
 }

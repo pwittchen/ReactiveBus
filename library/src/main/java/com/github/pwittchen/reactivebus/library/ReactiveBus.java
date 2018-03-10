@@ -18,7 +18,7 @@ public class ReactiveBus implements Bus {
   }
 
   @Override
-  public Flowable<Event> observe() {
+  public Flowable<Event> receive() {
     return bus.toFlowable(BackpressureStrategy.BUFFER);
   }
 }

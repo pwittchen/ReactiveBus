@@ -7,15 +7,15 @@ public class Event {
   private static final String EMPTY_STRING = "";
 
   private String id;
-  private String message;
+  private String name;
 
-  public Event(String id, String message) {
+  public Event(String id, String name) {
     this.id = id;
-    this.message = message;
+    this.name = name;
   }
 
-  public Event(String message) {
-    this(UUID.randomUUID().toString(), message);
+  public Event(String name) {
+    this(UUID.randomUUID().toString(), name);
   }
 
   public Event() {
@@ -30,18 +30,18 @@ public class Event {
     return id;
   }
 
-  public String getMessage() {
-    return message;
+  public String getName() {
+    return name;
   }
 
-  public void setMessage(String message) {
-    this.message = message;
+  public void setName(String name) {
+    this.name = name;
   }
 
   @Override public String toString() {
     return "Event{" +
         "id='" + id + '\'' +
-        ", message='" + message + '\'' +
+        ", name='" + name + '\'' +
         '}';
   }
 
