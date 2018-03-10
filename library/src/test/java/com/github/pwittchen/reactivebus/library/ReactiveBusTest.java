@@ -66,4 +66,25 @@ public class ReactiveBusTest {
 
     assertThat(counter[0]).isEqualTo(1);
   }
+
+  @Test
+  public void shouldBeAbleToReceiveManyEvents() {
+    Bus bus = ReactiveBus.create();
+    final Event sentEventOne = new Event("test event one");
+    final Event sentEventTwo = new Event("test event two");
+    final Event sentEventThree = new Event("test event three");
+    final int[] counter = {0};
+
+    bus.receive().subscribe(new Consumer<Event>() {
+      @Override public void accept(Event receivedEvent) {
+        counter[0]++;
+      }
+    });
+
+    bus.send(sentEventOne);
+    bus.send(sentEventTwo);
+    bus.send(sentEventThree);
+
+    assertThat(counter[0]).isEqualTo(3);
+  }
 }
