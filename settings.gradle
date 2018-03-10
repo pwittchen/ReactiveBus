@@ -1,4 +1,4 @@
-rootProject.name = 'reactivebus'
+rootProject.name = 'ReactiveBus'
 include 'library'
 include 'app'
 
