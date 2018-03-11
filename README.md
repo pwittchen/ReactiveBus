@@ -27,12 +27,18 @@ You can depend on the library through Maven:
     <artifactId>reactivebus</artifactId>
     <version>0.0.1</version>
 </dependency>
+<dependency>
+    <groupId>io.reactivex.rxjava2</groupId>
+    <artifactId>rxjava</artifactId>
+    <version>2.1.10</version>
+</dependency>
 ```
 
 or through Gradle:
 
 ```groovy
 implementation 'com.github.pwittchen:reactivebus:0.0.1'
+implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
 ```
 
 Code style
