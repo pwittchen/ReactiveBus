@@ -4,8 +4,6 @@
 Usage
 -----
 
-We can use this library as follows:
-
 ```java
 Bus bus = ReactiveBus.create();
 
