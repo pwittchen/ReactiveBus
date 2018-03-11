@@ -65,7 +65,7 @@ References
 License
 -------
 
-    Copyright 2015 Piotr Wittchen
+    Copyright 2018 Piotr Wittchen
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
