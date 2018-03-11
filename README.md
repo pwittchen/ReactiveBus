@@ -1,5 +1,5 @@
 # ReactiveBus [![Build Status](https://travis-ci.org/pwittchen/ReactiveBus.svg?branch=master)](https://travis-ci.org/pwittchen/ReactiveBus) [![codecov](https://codecov.io/gh/pwittchen/ReactiveBus/branch/master/graph/badge.svg)](https://codecov.io/gh/pwittchen/ReactiveBus) 
-🚍 Simple Reactive Event Bus for JVM (1.7+) & Android apps built with RxJava 2
+🚍 Simple Reactive Event Bus for JVM (1.7+) and Android apps built with RxJava 2
 
 Usage
 -----
