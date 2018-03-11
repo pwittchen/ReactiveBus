@@ -57,7 +57,7 @@ References
   - [Implementing an Event Bus with RxJava 1](https://blog.kaush.co/2014/12/24/implementing-an-event-bus-with-rxjava-rxbus/)
 - **Other Event Bus implementations**:
   - [Otto](https://github.com/square/otto)
-  - [Guava](https://github.com/google/guava)
+  - [Event Bus in Guava](https://github.com/google/guava/wiki/EventBusExplained)
   - [GreenRobot's Event Bus](https://github.com/greenrobot/EventBus)
 
 License
