@@ -19,7 +19,21 @@ observer.dispose(); // after disposal, observer will stop receiving new events
 Download
 --------
 
-TBD.
+You can depend on the library through Maven:
+
+```xml
+<dependency>
+    <groupId>com.github.pwittchen</groupId>
+    <artifactId>reactivebus</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
+or through Gradle:
+
+```groovy
+implementation 'com.github.pwittchen:reactivebus:0.0.1'
+```
 
 Code style
 ----------
