@@ -85,6 +85,5 @@ public class EventTest {
     Event eventOne = Event.create(eventId, eventName);
 
     assertThat(eventOne.toString()).isEqualTo("Event {id='test_id', name='test name'}");
-
   }
 }
