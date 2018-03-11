@@ -1,4 +1,4 @@
-# ReactiveBus
+# ReactiveBus [![Build Status](https://travis-ci.org/pwittchen/ReactiveBus.svg?branch=master)](https://travis-ci.org/pwittchen/ReactiveBus)
 🚍 Simple Reactive Event Bus for JVM & Android applications built with RxJava 2
 
 This project is compatible with Java 1.7+.

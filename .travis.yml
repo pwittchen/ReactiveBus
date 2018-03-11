@@ -1,0 +1,11 @@
+language: java
+
+install:
+  - true
+
+script:
+- ./gradlew clean build test check
+
+cache:
+  directories:
+- $HOME/.m2
