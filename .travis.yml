@@ -4,11 +4,11 @@ install:
   - true
 
 script:
-- ./gradlew clean build test check
+  - ./gradlew clean build test check
 
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
 
 cache:
   directories:
-- $HOME/.m2
+    - $HOME/.m2
