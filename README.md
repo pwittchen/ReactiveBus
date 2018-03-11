@@ -29,6 +29,7 @@ Code style
 ----------
 
 Code style used in the project is called Square from Java Code Styles repository by `Square` 
+
 available at: https://github.com/square/java-code-styles.
 
 Building, tests and static code analysis
