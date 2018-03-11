@@ -16,27 +16,28 @@ public class ReactiveBusTest {
   @Test
   public void shouldSendAndReceiveEvent() {
     Bus bus = ReactiveBus.create();
-    final Event sentEvent = new Event("test event");
+    final Event sentEvent = Event.create("test event");
 
-    bus.receive().subscribe(new Consumer<Event>() {
+    Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
       @Override public void accept(Event receivedEvent) {
         assertThat(receivedEvent).isEqualTo(sentEvent);
       }
     });
 
     bus.send(sentEvent);
+    assertThat(subscription).isNotNull();
   }
 
   @Test
   public void shouldNotReceiveEventBeforeSubscription() {
     Bus bus = ReactiveBus.create();
-    final Event sentEventOne = new Event("test event one");
-    final Event sentEventTwo = new Event("test event two");
+    final Event sentEventOne = Event.create("test event one");
+    final Event sentEventTwo = Event.create("test event two");
     final int[] counter = {0};
 
     bus.send(sentEventOne);
 
-    bus.receive().subscribe(new Consumer<Event>() {
+    Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
       @Override public void accept(Event receivedEvent) {
         counter[0]++;
       }
@@ -45,13 +46,14 @@ public class ReactiveBusTest {
     bus.send(sentEventTwo);
 
     assertThat(counter[0]).isEqualTo(1);
+    assertThat(subscription).isNotNull();
   }
 
   @Test
   public void shouldNotReceiveEventAfterDisposal() {
     Bus bus = ReactiveBus.create();
-    final Event sentEventOne = new Event("test event one");
-    final Event sentEventTwo = new Event("test event two");
+    final Event sentEventOne = Event.create("test event one");
+    final Event sentEventTwo = Event.create("test event two");
     final int[] counter = {0};
 
     Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
@@ -65,17 +67,19 @@ public class ReactiveBusTest {
     bus.send(sentEventTwo);
 
     assertThat(counter[0]).isEqualTo(1);
+    assertThat(subscription).isNotNull();
+    assertThat(subscription.isDisposed()).isTrue();
   }
 
   @Test
   public void shouldBeAbleToReceiveManyEvents() {
     Bus bus = ReactiveBus.create();
-    final Event sentEventOne = new Event("test event one");
-    final Event sentEventTwo = new Event("test event two");
-    final Event sentEventThree = new Event("test event three");
+    final Event sentEventOne = Event.create("test event one");
+    final Event sentEventTwo = Event.create("test event two");
+    final Event sentEventThree = Event.create("test event three");
     final int[] counter = {0};
 
-    bus.receive().subscribe(new Consumer<Event>() {
+    Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
       @Override public void accept(Event receivedEvent) {
         counter[0]++;
       }
@@ -86,5 +90,6 @@ public class ReactiveBusTest {
     bus.send(sentEventThree);
 
     assertThat(counter[0]).isEqualTo(3);
+    assertThat(subscription).isNotNull();
   }
 }

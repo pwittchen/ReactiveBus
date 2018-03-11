@@ -1,7 +1,17 @@
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'jacoco'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
 
 sourceCompatibility = 1.7
+
+dependencies {
+  implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'com.google.truth:truth:0.27'
+}
 
 sourceSets {
   main {
@@ -17,8 +27,24 @@ sourceSets {
   }
 }
 
-dependencies {
-  implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
-  testImplementation 'junit:junit:4.12'
-  testImplementation 'com.google.truth:truth:0.27'
+
+jacocoTestReport {
+  reports {
+    xml.enabled = true
+    html.enabled = true
+  }
 }
+
+checkstyle {
+  toolVersion = '6.0'
+  configFile = new File(rootDir, 'checkstyle.xml')
+}
+
+tasks.withType(FindBugs) {
+  reports {
+    xml.enabled = false
+    html.enabled = true
+  }
+}
+
+check.dependsOn jacocoTestReport

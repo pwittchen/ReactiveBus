@@ -1,4 +1,3 @@
 rootProject.name = 'ReactiveBus'
 include 'library'
-include 'app'
 

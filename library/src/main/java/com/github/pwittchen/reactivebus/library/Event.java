@@ -9,21 +9,29 @@ public class Event {
   private String id;
   private String name;
 
-  public Event(String id, String name) {
+  public static Event create(String id, String name) {
+    return new Event(id, name);
+  }
+
+  public static Event create(String name) {
+    return new Event(name);
+  }
+
+  public static Event create() {
+    return new Event();
+  }
+
+  private Event(String id, String name) {
     this.id = id;
     this.name = name;
   }
 
-  public Event(String name) {
+  private Event(String name) {
     this(UUID.randomUUID().toString(), name);
   }
 
-  public Event() {
+  private Event() {
     this(EMPTY_STRING);
-  }
-
-  public void setId(String id) {
-    this.id = id;
   }
 
   public String getId() {
@@ -34,15 +42,8 @@ public class Event {
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
   @Override public String toString() {
-    return "Event{" +
-        "id='" + id + '\'' +
-        ", name='" + name + '\'' +
-        '}';
+    return "Event {" + "id='" + id + '\'' + ", name='" + name + '\'' + '}';
   }
 
   @Override public boolean equals(Object o) {
