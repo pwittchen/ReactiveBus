@@ -20,6 +20,7 @@ public class EventTest {
 
     assertThat(event).isNotNull();
     assertThat(event.getName()).isEqualTo(eventName);
+    assertThat(event.hasData()).isFalse();
   }
 
   @Test
@@ -32,6 +33,22 @@ public class EventTest {
     assertThat(event).isNotNull();
     assertThat(event.getId()).isEqualTo(eventId);
     assertThat(event.getName()).isEqualTo(eventName);
+    assertThat(event.hasData()).isFalse();
+  }
+
+  @Test
+  public void shouldCreateEventWithIdNameAndData() {
+    String eventId = "test_id";
+    String eventName = "test name";
+    TestUtils.SerializableObject data = TestUtils.createSerializableObject();
+
+    Event event = Event.create(eventId, eventName, data);
+
+    assertThat(event).isNotNull();
+    assertThat(event.getId()).isEqualTo(eventId);
+    assertThat(event.getName()).isEqualTo(eventName);
+    assertThat(event.hasData()).isTrue();
+    assertThat(event.getData()).isEqualTo(data);
   }
 
   @Test

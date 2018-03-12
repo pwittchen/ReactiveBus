@@ -30,6 +30,27 @@ public class ReactiveBusTest {
   }
 
   @Test
+  public void shouldSendAndReceiveEventWithData() {
+    Bus bus = ReactiveBus.create();
+    final String testMessage = "test message";
+    TestUtils.SerializableObject data = TestUtils.createSerializableObject(testMessage);
+    final Event sentEvent = Event.create("test event", data);
+
+    Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
+      @Override public void accept(Event receivedEvent) {
+        assertThat(receivedEvent).isEqualTo(sentEvent);
+        assertThat(receivedEvent.hasData()).isTrue();
+        assertThat(receivedEvent.getData()).isInstanceOf(TestUtils.SerializableObject.class);
+        String message = ((TestUtils.SerializableObject) receivedEvent.getData()).getMessage();
+        assertThat(message).isEqualTo(testMessage);
+      }
+    });
+
+    bus.send(sentEvent);
+    assertThat(subscription).isNotNull();
+  }
+
+  @Test
   public void shouldSendAndReceiveEventOfProperType() {
     Bus bus = ReactiveBus.create();
     final Event sentEvent = Event.create("test event");
