@@ -9,18 +9,6 @@ public class Event {
   private String id;
   private String name;
 
-  public static Event create(String id, String name) {
-    return new Event(id, name);
-  }
-
-  public static Event create(String name) {
-    return new Event(name);
-  }
-
-  public static Event create() {
-    return new Event();
-  }
-
   private Event(String id, String name) {
     this.id = id;
     this.name = name;
@@ -34,6 +22,18 @@ public class Event {
     this(EMPTY_STRING);
   }
 
+  public static Event create(String id, String name) {
+    return new Event(id, name);
+  }
+
+  public static Event create(String name) {
+    return new Event(name);
+  }
+
+  public static Event create() {
+    return new Event();
+  }
+
   public String getId() {
     return id;
   }
@@ -42,18 +42,21 @@ public class Event {
     return name;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return "Event {" + "id='" + id + '\'' + ", name='" + name + '\'' + '}';
   }
 
-  @Override public boolean equals(Object o) {
+  @Override
+  public boolean equals(final Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Event event = (Event) o;
-    return Objects.equals(id, event.id);
+    final Event event = (Event) o;
+    return Objects.equals(id, event.id) && Objects.equals(name, event.name);
   }
 
-  @Override public int hashCode() {
-    return Objects.hash(id);
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name);
   }
 }
