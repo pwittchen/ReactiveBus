@@ -5,7 +5,7 @@ Usage
 -----
 
 ```java
-Bus bus = ReactiveBus.create();
+Bus bus = ReactiveBus.create(); // creating thread safe instance of event bus
 
 Disposable observer = bus.receive().subscribe(new Consumer<Event>() {
     @Override public void accept(Event event) {
