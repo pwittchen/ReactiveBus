@@ -13,7 +13,9 @@ Disposable observer = bus.receive().subscribe(new Consumer<Event>() {
     }
   });
 
-bus.send(Event.create("my event"));
+bus.send(Event.create("my event")); // send a message only
+bus.send(Event.create("my another event", serializableObject)); // send some data
+
 observer.dispose(); // after disposal, observer will stop receiving new events
 ```
 Download
