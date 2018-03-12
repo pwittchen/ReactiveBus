@@ -7,6 +7,7 @@ import org.junit.Test;
 import static com.google.common.truth.Truth.assertThat;
 
 public class ReactiveBusTest {
+
   @Test
   public void shouldCreateBus() {
     Bus bus = ReactiveBus.create();
@@ -25,6 +26,28 @@ public class ReactiveBusTest {
     });
 
     bus.send(sentEvent);
+    assertThat(subscription).isNotNull();
+  }
+
+  @Test
+  public void shouldSendAndReceiveEventOfProperType() {
+    Bus bus = ReactiveBus.create();
+    final Event sentEvent = Event.create("test event");
+    final Event[] receivedEvent = new Event[1];
+
+    Disposable subscription = bus
+        .receive()
+        .subscribe(new Consumer<Event>() {
+          @Override public void accept(Event event) {
+            // when assertion failed here in this test, whole test passed for some reason
+            receivedEvent[0] = event;
+          }
+        });
+
+    bus.send(sentEvent);
+
+    assertThat(receivedEvent[0]).isEqualTo(sentEvent);
+    assertThat(receivedEvent[0]).isInstanceOf(Event.class);
     assertThat(subscription).isNotNull();
   }
 
