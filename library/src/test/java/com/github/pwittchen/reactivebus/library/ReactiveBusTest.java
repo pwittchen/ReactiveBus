@@ -33,14 +33,16 @@ public class ReactiveBusTest {
   public void shouldSendAndReceiveEvent() {
     Bus bus = ReactiveBus.create();
     final Event sentEvent = Event.create("test event");
+    final Event[] receivedEvent = new Event[1];
 
     Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
-      @Override public void accept(Event receivedEvent) {
-        assertThat(receivedEvent).isEqualTo(sentEvent);
+      @Override public void accept(Event event) {
+        receivedEvent[0] = event;
       }
     });
 
     bus.send(sentEvent);
+    assertThat(receivedEvent[0]).isEqualTo(sentEvent);
     assertThat(subscription).isNotNull();
   }
 
@@ -50,18 +52,21 @@ public class ReactiveBusTest {
     final String testMessage = "test message";
     TestUtils.SerializableObject data = TestUtils.createSerializableObject(testMessage);
     final Event sentEvent = Event.create("test event", data);
+    final Event[] receivedEvent = new Event[1];
 
     Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
-      @Override public void accept(Event receivedEvent) {
-        assertThat(receivedEvent).isEqualTo(sentEvent);
-        assertThat(receivedEvent.hasData()).isTrue();
-        assertThat(receivedEvent.getData()).isInstanceOf(TestUtils.SerializableObject.class);
-        String message = ((TestUtils.SerializableObject) receivedEvent.getData()).getMessage();
-        assertThat(message).isEqualTo(testMessage);
+      @Override public void accept(Event event) {
+        receivedEvent[0] = event;
       }
     });
 
     bus.send(sentEvent);
+
+    assertThat(receivedEvent[0]).isEqualTo(sentEvent);
+    assertThat(receivedEvent[0].hasData()).isTrue();
+    assertThat(receivedEvent[0].getData()).isInstanceOf(TestUtils.SerializableObject.class);
+    String message = ((TestUtils.SerializableObject) receivedEvent[0].getData()).getMessage();
+    assertThat(message).isEqualTo(testMessage);
     assertThat(subscription).isNotNull();
   }
 
@@ -75,7 +80,6 @@ public class ReactiveBusTest {
         .receive()
         .subscribe(new Consumer<Event>() {
           @Override public void accept(Event event) {
-            // when assertion failed here in this test, whole test passed for some reason
             receivedEvent[0] = event;
           }
         });
