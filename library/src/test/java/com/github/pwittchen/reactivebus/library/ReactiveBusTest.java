@@ -15,8 +15,8 @@
  */
 package com.github.pwittchen.reactivebus.library;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
+import io.reactivex.subscribers.TestSubscriber;
+import java.util.List;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -25,134 +25,121 @@ public class ReactiveBusTest {
 
   @Test
   public void shouldCreateBus() {
+    // when
     Bus bus = ReactiveBus.create();
+
+    // then
     assertThat(bus).isNotNull();
   }
 
   @Test
   public void shouldSendAndReceiveEvent() {
+    // given
     Bus bus = ReactiveBus.create();
     final Event sentEvent = Event.create("test event");
-    final Event[] receivedEvent = new Event[1];
 
-    Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
-      @Override public void accept(Event event) {
-        receivedEvent[0] = event;
-      }
-    });
+    // when
+    TestSubscriber subscriber = new TestSubscriber();
+    bus.receive().subscribe(subscriber);
 
+    // then
     bus.send(sentEvent);
-    assertThat(receivedEvent[0]).isEqualTo(sentEvent);
-    assertThat(subscription).isNotNull();
+    subscriber.assertValue(sentEvent);
   }
 
   @Test
   public void shouldSendAndReceiveEventWithData() {
+    // given
     Bus bus = ReactiveBus.create();
     final String testMessage = "test message";
     TestUtils.SerializableObject data = TestUtils.createSerializableObject(testMessage);
     final Event sentEvent = Event.create("test event", data);
-    final Event[] receivedEvent = new Event[1];
 
-    Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
-      @Override public void accept(Event event) {
-        receivedEvent[0] = event;
-      }
-    });
-
+    // when
+    TestSubscriber subscriber = new TestSubscriber();
+    bus.receive().subscribe(subscriber);
     bus.send(sentEvent);
 
-    assertThat(receivedEvent[0]).isEqualTo(sentEvent);
-    assertThat(receivedEvent[0].hasData()).isTrue();
-    assertThat(receivedEvent[0].getData()).isInstanceOf(TestUtils.SerializableObject.class);
-    String message = ((TestUtils.SerializableObject) receivedEvent[0].getData()).getMessage();
+    // then
+    subscriber.assertValue(sentEvent);
+    List<Event> values = subscriber.values();
+    Event receivedEvent = values.get(0);
+    assertThat(receivedEvent.getData()).isInstanceOf(TestUtils.SerializableObject.class);
+    String message = ((TestUtils.SerializableObject) receivedEvent.getData()).getMessage();
     assertThat(message).isEqualTo(testMessage);
-    assertThat(subscription).isNotNull();
   }
 
   @Test
   public void shouldSendAndReceiveEventOfProperType() {
+    // given
     Bus bus = ReactiveBus.create();
     final Event sentEvent = Event.create("test event");
-    final Event[] receivedEvent = new Event[1];
+    TestSubscriber subscriber = new TestSubscriber();
 
-    Disposable subscription = bus
-        .receive()
-        .subscribe(new Consumer<Event>() {
-          @Override public void accept(Event event) {
-            receivedEvent[0] = event;
-          }
-        });
-
+    // when
+    bus.receive().subscribe(subscriber);
     bus.send(sentEvent);
 
-    assertThat(receivedEvent[0]).isEqualTo(sentEvent);
-    assertThat(receivedEvent[0]).isInstanceOf(Event.class);
-    assertThat(subscription).isNotNull();
+    // then
+    subscriber.assertValue(sentEvent);
+    List<Event> values = subscriber.values();
+    Event receivedEvent = values.get(0);
+    assertThat(receivedEvent).isEqualTo(sentEvent);
+    assertThat(receivedEvent).isInstanceOf(Event.class);
   }
 
   @Test
   public void shouldNotReceiveEventBeforeSubscription() {
+    // given
     Bus bus = ReactiveBus.create();
     final Event sentEventOne = Event.create("test event one");
     final Event sentEventTwo = Event.create("test event two");
-    final int[] counter = {0};
+    TestSubscriber subscriber = new TestSubscriber();
 
+    // when
     bus.send(sentEventOne);
-
-    Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
-      @Override public void accept(Event receivedEvent) {
-        counter[0]++;
-      }
-    });
-
+    bus.receive().subscribe(subscriber);
     bus.send(sentEventTwo);
 
-    assertThat(counter[0]).isEqualTo(1);
-    assertThat(subscription).isNotNull();
+    // then
+    subscriber.assertValueCount(1);
   }
 
   @Test
   public void shouldNotReceiveEventAfterDisposal() {
+    // given
     Bus bus = ReactiveBus.create();
     final Event sentEventOne = Event.create("test event one");
     final Event sentEventTwo = Event.create("test event two");
-    final int[] counter = {0};
+    TestSubscriber subscriber = new TestSubscriber();
 
-    Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
-      @Override public void accept(Event receivedEvent) {
-        counter[0]++;
-      }
-    });
-
+    // when
+    bus.receive().subscribe(subscriber);
     bus.send(sentEventOne);
-    subscription.dispose();
+    subscriber.dispose();
     bus.send(sentEventTwo);
 
-    assertThat(counter[0]).isEqualTo(1);
-    assertThat(subscription).isNotNull();
-    assertThat(subscription.isDisposed()).isTrue();
+    // then
+    subscriber.assertValueCount(1);
+    assertThat(subscriber.isDisposed()).isTrue();
   }
 
   @Test
   public void shouldBeAbleToReceiveManyEvents() {
+    // given
     Bus bus = ReactiveBus.create();
     final Event sentEventOne = Event.create("test event one");
     final Event sentEventTwo = Event.create("test event two");
     final Event sentEventThree = Event.create("test event three");
-    final int[] counter = {0};
+    TestSubscriber subscriber = new TestSubscriber();
 
-    Disposable subscription = bus.receive().subscribe(new Consumer<Event>() {
-      @Override public void accept(Event receivedEvent) {
-        counter[0]++;
-      }
-    });
-
+    // when
+    bus.receive().subscribe(subscriber);
     bus.send(sentEventOne);
     bus.send(sentEventTwo);
     bus.send(sentEventThree);
 
-    assertThat(counter[0]).isEqualTo(3);
-    assertThat(subscription).isNotNull();
+    // then
+    subscriber.assertValueCount(3);
   }
 }
