@@ -1,4 +1,4 @@
-# ReactiveBus [![Build Status](https://travis-ci.org/pwittchen/ReactiveBus.svg?branch=master)](https://travis-ci.org/pwittchen/ReactiveBus) [![codecov](https://codecov.io/gh/pwittchen/ReactiveBus/branch/master/graph/badge.svg)](https://codecov.io/gh/pwittchen/ReactiveBus)  ![Maven Central](https://img.shields.io/maven-central/v/com.github.pwittchen/reactivebus.svg?style=flat) 
+# ReactiveBus [![Build Status](https://travis-ci.org/pwittchen/ReactiveBus.svg?branch=master)](https://travis-ci.org/pwittchen/ReactiveBus) [![codecov](https://codecov.io/gh/pwittchen/ReactiveBus/branch/master/graph/badge.svg)](https://codecov.io/gh/pwittchen/ReactiveBus)  ![Maven Central](https://img.shields.io/maven-central/v/com.github.pwittchen/reactivebus.svg?style=flat) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ReactiveBus-green.svg?style=flat)](https://android-arsenal.com/details/1/6838)
 🚍 Simple Reactive Event Bus for JVM (1.7+) and Android apps built with RxJava 2
 
 Usage
