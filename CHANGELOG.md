@@ -3,7 +3,7 @@ CHANGELOG
 
 v. 0.0.3
 --------
-*unknown date*
+*20 Mar 2018*
 
 - Reducing overhead by casting result and removing mapping - PR #5
 
