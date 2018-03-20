@@ -17,7 +17,6 @@ package com.github.pwittchen.reactivebus.library;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
-import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
@@ -38,7 +37,7 @@ public class ReactiveBus implements Bus {
   @Override
   @SuppressWarnings("unchecked")
   public Flowable<Event> receive() {
-    return (Flowable<Event>)(Flowable<?>) bus
+    return (Flowable<Event>) (Flowable<?>) bus
         .toFlowable(BackpressureStrategy.BUFFER)
         .filter(new Predicate<Object>() {
           @Override
