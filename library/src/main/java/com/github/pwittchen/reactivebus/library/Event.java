@@ -20,48 +20,23 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Event {
-  private static final String EMPTY_STRING = "";
 
   private String id;
   private String name;
   private Serializable data;
 
-  private Event(String id, String name, Serializable data) {
+  public Event(String id, String name, Serializable data) {
     this.id = id;
     this.name = name;
     this.data = data;
   }
 
-  private Event(String id, String name) {
-    this(id, name, null);
+  public Event(Builder builder) {
+    this(builder.id, builder.name, builder.data);
   }
 
-  private Event(String name) {
-    this(UUID.randomUUID().toString(), name);
-  }
-
-  private Event() {
-    this(EMPTY_STRING);
-  }
-
-  public static Event create(String name, Serializable data) {
-    return new Event(UUID.randomUUID().toString(), name, data);
-  }
-
-  public static Event create(String id, String name, Serializable data) {
-    return new Event(id, name, data);
-  }
-
-  public static Event create(String id, String name) {
-    return new Event(id, name);
-  }
-
-  public static Event create(String name) {
-    return new Event(name);
-  }
-
-  public static Event create() {
-    return new Event();
+  public Event() {
+    this(new Builder());
   }
 
   public String getId() {
@@ -96,5 +71,30 @@ public class Event {
   @Override
   public int hashCode() {
     return Objects.hash(id, name);
+  }
+
+  public static class Builder {
+    private String id = UUID.randomUUID().toString();
+    private String name = "";
+    private Serializable data;
+
+    public Builder setId(String id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public Builder setData(Serializable data) {
+      this.data = data;
+      return this;
+    }
+
+    public Event build() {
+      return new Event(this);
+    }
   }
 }
