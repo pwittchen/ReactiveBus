@@ -22,6 +22,8 @@ import org.junit.Test;
 import static com.google.common.truth.Truth.assertThat;
 
 public class ReactiveBusTest {
+  private static final String TEST_EVENT_NAME = "test event";
+  public static final String TEST_MESSAGE = "test message";
 
   @Test
   public void shouldCreateBus() {
@@ -36,7 +38,7 @@ public class ReactiveBusTest {
   public void shouldSendAndReceiveEvent() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEvent = Event.create("test event");
+    final Event sentEvent = new Event.Builder().setName(TEST_EVENT_NAME).build();
 
     // when
     TestSubscriber subscriber = new TestSubscriber();
@@ -51,9 +53,8 @@ public class ReactiveBusTest {
   public void shouldSendAndReceiveEventWithData() {
     // given
     Bus bus = ReactiveBus.create();
-    final String testMessage = "test message";
-    TestUtils.SerializableObject data = TestUtils.createSerializableObject(testMessage);
-    final Event sentEvent = Event.create("test event", data);
+    TestUtils.SerializableObject data = TestUtils.createSerializableObject(TEST_MESSAGE);
+    final Event sentEvent = new Event.Builder().setName(TEST_EVENT_NAME).setData(data).build();
 
     // when
     TestSubscriber subscriber = new TestSubscriber();
@@ -66,14 +67,14 @@ public class ReactiveBusTest {
     Event receivedEvent = values.get(0);
     assertThat(receivedEvent.getData()).isInstanceOf(TestUtils.SerializableObject.class);
     String message = ((TestUtils.SerializableObject) receivedEvent.getData()).getMessage();
-    assertThat(message).isEqualTo(testMessage);
+    assertThat(message).isEqualTo(TEST_MESSAGE);
   }
 
   @Test
   public void shouldSendAndReceiveEventOfProperType() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEvent = Event.create("test event");
+    final Event sentEvent = new Event.Builder().setName("test event").build();
     TestSubscriber subscriber = new TestSubscriber();
 
     // when
@@ -92,8 +93,8 @@ public class ReactiveBusTest {
   public void shouldNotReceiveEventBeforeSubscription() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEventOne = Event.create("test event one");
-    final Event sentEventTwo = Event.create("test event two");
+    final Event sentEventOne = new Event.Builder().setName("test event one").build();
+    final Event sentEventTwo = new Event.Builder().setName("test event two").build();
     TestSubscriber subscriber = new TestSubscriber();
 
     // when
@@ -109,8 +110,8 @@ public class ReactiveBusTest {
   public void shouldNotReceiveEventAfterDisposal() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEventOne = Event.create("test event one");
-    final Event sentEventTwo = Event.create("test event two");
+    final Event sentEventOne = new Event.Builder().setName("test event one").build();
+    final Event sentEventTwo = new Event.Builder().setName("test event two").build();
     TestSubscriber subscriber = new TestSubscriber();
 
     // when
@@ -128,9 +129,9 @@ public class ReactiveBusTest {
   public void shouldBeAbleToReceiveManyEvents() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEventOne = Event.create("test event one");
-    final Event sentEventTwo = Event.create("test event two");
-    final Event sentEventThree = Event.create("test event three");
+    final Event sentEventOne = new Event.Builder().setName("test event one").build();
+    final Event sentEventTwo = new Event.Builder().setName("test event two").build();
+    final Event sentEventThree = new Event.Builder().setName("test event three").build();
     TestSubscriber subscriber = new TestSubscriber();
 
     // when

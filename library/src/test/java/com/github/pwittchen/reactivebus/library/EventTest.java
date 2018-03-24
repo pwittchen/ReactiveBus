@@ -23,7 +23,7 @@ public class EventTest {
 
   @Test
   public void shouldCreateEvent() {
-    Event event = Event.create();
+    Event event = new Event();
     assertThat(event).isNotNull();
   }
 
@@ -31,7 +31,7 @@ public class EventTest {
   public void shouldCreateEventWithName() {
     String eventName = "test event";
 
-    Event event = Event.create(eventName);
+    Event event = new Event.Builder().setName(eventName).build();
 
     assertThat(event).isNotNull();
     assertThat(event.getName()).isEqualTo(eventName);
@@ -43,7 +43,7 @@ public class EventTest {
     String eventId = "test_id";
     String eventName = "test name";
 
-    Event event = Event.create(eventId, eventName);
+    Event event = new Event.Builder().setId(eventId).setName(eventName).build();
 
     assertThat(event).isNotNull();
     assertThat(event.getId()).isEqualTo(eventId);
@@ -57,7 +57,7 @@ public class EventTest {
     String eventName = "test name";
     TestUtils.SerializableObject data = TestUtils.createSerializableObject();
 
-    Event event = Event.create(eventId, eventName, data);
+    Event event = new Event.Builder().setId(eventId).setName(eventName).setData(data).build();
 
     assertThat(event).isNotNull();
     assertThat(event.getId()).isEqualTo(eventId);
@@ -71,8 +71,8 @@ public class EventTest {
     String eventId = "test_id";
     String eventName = "test name";
 
-    Event eventOne = Event.create(eventId, eventName);
-    Event eventTwo = Event.create(eventId, eventName);
+    Event eventOne = new Event.Builder().setId(eventId).setName(eventName).build();
+    Event eventTwo = new Event.Builder().setId(eventId).setName(eventName).build();
 
     assertThat(eventOne.equals(eventTwo)).isTrue();
     assertThat(eventOne.hashCode()).isEqualTo(eventTwo.hashCode());
@@ -82,8 +82,8 @@ public class EventTest {
   public void eventsShouldBeDifferentWithDifferentNames() {
     String eventId = "test_id";
 
-    Event eventOne = Event.create(eventId, "name 1");
-    Event eventTwo = Event.create(eventId, "name 2");
+    Event eventOne = new Event.Builder().setId(eventId).setName("name 1").build();
+    Event eventTwo = new Event.Builder().setId(eventId).setName("name 2").build();
 
     assertThat(eventOne.equals(eventTwo)).isFalse();
   }
@@ -92,15 +92,15 @@ public class EventTest {
   public void eventsShouldBeDifferentWithDifferentIds() {
     String eventName = "test name";
 
-    Event eventOne = Event.create("test_id_1", eventName);
-    Event eventTwo = Event.create("test_id_2", eventName);
+    Event eventOne = new Event.Builder().setId("test_id_1").setName(eventName).build();
+    Event eventTwo = new Event.Builder().setId("test_id_2").setName(eventName).build();
 
     assertThat(eventOne.equals(eventTwo)).isFalse();
   }
 
   @Test
   public void eventObjectsShouldBeTheSame() {
-    Event eventOne = Event.create();
+    Event eventOne = new Event();
 
     assertThat(eventOne.equals(eventOne)).isTrue();
     assertThat(eventOne.hashCode()).isEqualTo(eventOne.hashCode());
@@ -108,22 +108,22 @@ public class EventTest {
 
   @Test
   public void eventsShouldBeDifferent() {
-    Event eventOne = Event.create();
-    Event eventTwo = Event.create();
+    Event eventOne = new Event();
+    Event eventTwo = new Event();
 
     assertThat(eventOne.equals(eventTwo)).isFalse();
   }
 
   @Test
   public void eventShouldBeDifferentThanNull() {
-    Event eventOne = Event.create();
+    Event eventOne = new Event();
 
     assertThat(eventOne.equals(null)).isFalse();
   }
 
   @Test
   public void eventShouldBeDifferentThanGenericObject() {
-    Event eventOne = Event.create();
+    Event eventOne = new Event();
 
     assertThat(eventOne.equals(new Object())).isFalse();
   }
@@ -134,7 +134,7 @@ public class EventTest {
     String eventId = "test_id";
     String eventName = "test name";
 
-    Event eventOne = Event.create(eventId, eventName);
+    Event eventOne = new Event.Builder().setId(eventId).setName(eventName).build();
 
     assertThat(eventOne.toString()).isEqualTo("Event {id='test_id', name='test name'}");
   }
