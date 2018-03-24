@@ -23,7 +23,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class ReactiveBusTest {
   private static final String TEST_EVENT_NAME = "test event";
-  public static final String TEST_MESSAGE = "test message";
+  private static final String TEST_MESSAGE = "test message";
 
   @Test
   public void shouldCreateBus() {
