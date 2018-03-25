@@ -38,7 +38,7 @@ public class ReactiveBusTest {
   public void shouldSendAndReceiveEvent() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEvent = new Event.Builder().setName(TEST_EVENT_NAME).build();
+    final Event sentEvent = Event.name(TEST_EVENT_NAME).build();
 
     // when
     TestSubscriber subscriber = new TestSubscriber();
@@ -54,7 +54,7 @@ public class ReactiveBusTest {
     // given
     Bus bus = ReactiveBus.create();
     TestUtils.SerializableObject data = TestUtils.createSerializableObject(TEST_MESSAGE);
-    final Event sentEvent = new Event.Builder().setName(TEST_EVENT_NAME).setData(data).build();
+    final Event sentEvent = Event.name(TEST_EVENT_NAME).data(data).build();
 
     // when
     TestSubscriber subscriber = new TestSubscriber();
@@ -65,8 +65,8 @@ public class ReactiveBusTest {
     subscriber.assertValue(sentEvent);
     List<Event> values = subscriber.values();
     Event receivedEvent = values.get(0);
-    assertThat(receivedEvent.getData()).isInstanceOf(TestUtils.SerializableObject.class);
-    String message = ((TestUtils.SerializableObject) receivedEvent.getData()).getMessage();
+    assertThat(receivedEvent.data()).isInstanceOf(TestUtils.SerializableObject.class);
+    String message = ((TestUtils.SerializableObject) receivedEvent.data()).getMessage();
     assertThat(message).isEqualTo(TEST_MESSAGE);
   }
 
@@ -74,7 +74,7 @@ public class ReactiveBusTest {
   public void shouldSendAndReceiveEventOfProperType() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEvent = new Event.Builder().setName("test event").build();
+    final Event sentEvent = Event.name("test event").build();
     TestSubscriber subscriber = new TestSubscriber();
 
     // when
@@ -93,8 +93,8 @@ public class ReactiveBusTest {
   public void shouldNotReceiveEventBeforeSubscription() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEventOne = new Event.Builder().setName("test event one").build();
-    final Event sentEventTwo = new Event.Builder().setName("test event two").build();
+    final Event sentEventOne = Event.name("test event one").build();
+    final Event sentEventTwo = Event.name("test event two").build();
     TestSubscriber subscriber = new TestSubscriber();
 
     // when
@@ -110,8 +110,8 @@ public class ReactiveBusTest {
   public void shouldNotReceiveEventAfterDisposal() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEventOne = new Event.Builder().setName("test event one").build();
-    final Event sentEventTwo = new Event.Builder().setName("test event two").build();
+    final Event sentEventOne = Event.name("test event one").build();
+    final Event sentEventTwo = Event.name("test event two").build();
     TestSubscriber subscriber = new TestSubscriber();
 
     // when
@@ -129,9 +129,9 @@ public class ReactiveBusTest {
   public void shouldBeAbleToReceiveManyEvents() {
     // given
     Bus bus = ReactiveBus.create();
-    final Event sentEventOne = new Event.Builder().setName("test event one").build();
-    final Event sentEventTwo = new Event.Builder().setName("test event two").build();
-    final Event sentEventThree = new Event.Builder().setName("test event three").build();
+    final Event sentEventOne = Event.name("test event one").build();
+    final Event sentEventTwo = Event.name("test event two").build();
+    final Event sentEventThree = Event.name("test event three").build();
     TestSubscriber subscriber = new TestSubscriber();
 
     // when

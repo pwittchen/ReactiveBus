@@ -13,19 +13,9 @@ Disposable observer = bus.receive().subscribe(new Consumer<Event>() {
     }
   });
 
-bus.send(new Event.Builder
-                  .setName("my event")
-                  .build());                             // send a message only (with random id)
-
-bus.send(new Event.Builder
-                  .setName("my event")
-                  .setData(serializableObject).build()); // send some data (with random id)
-
-bus.send(new Event.Builder
-                  .setId("myId")
-                  .setName("my event")
-                  .setData(serializableObject)
-                  .build());                            // send id, name and some data
+bus.send(Event.name("my event 1").build());                                      // send a message only (with random id)
+bus.send(Event.name("my event 2").data(serializableObject).build());             // send some data (with random id)
+bus.send(Event.id("myId").name("my event 3").data(serializableObject).build());  // send id, name and some data
 
 observer.dispose(); // after disposal, observer will stop receiving new events
 ```

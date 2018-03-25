@@ -19,35 +19,55 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Event {
+public final class Event {
 
-  private String id;
-  private String name;
-  private Serializable data;
+  private final String id;
+  private final String name;
+  private final Serializable data;
 
-  public Event(String id, String name, Serializable data) {
+  public static Event create() {
+    return Event.builder().build();
+  }
+
+  private Event(String id, String name, Serializable data) {
     this.id = id;
     this.name = name;
     this.data = data;
   }
 
-  public Event(Builder builder) {
+  private Event(Builder builder) {
     this(builder.id, builder.name, builder.data);
   }
 
-  public Event() {
-    this(new Builder());
+  private Event() {
+    this(builder());
   }
 
-  public String getId() {
+  private static Builder builder() {
+    return new Builder();
+  }
+
+  public static Builder id(final String id) {
+    return builder().id(id);
+  }
+
+  public String id() {
     return id;
   }
 
-  public String getName() {
+  public static Builder name(final String name) {
+    return builder().name(name);
+  }
+
+  public String name() {
     return name;
   }
 
-  public Serializable getData() {
+  public static Builder data(final Serializable data) {
+    return builder().data(data);
+  }
+
+  public Serializable data() {
     return data;
   }
 
@@ -73,22 +93,25 @@ public class Event {
     return Objects.hash(id, name);
   }
 
-  public static class Builder {
+  public final static class Builder {
     private String id = UUID.randomUUID().toString();
     private String name = "";
     private Serializable data;
 
-    public Builder setId(String id) {
+    private Builder() {
+    }
+
+    public Builder id(String id) {
       this.id = id;
       return this;
     }
 
-    public Builder setName(String name) {
+    public Builder name(String name) {
       this.name = name;
       return this;
     }
 
-    public Builder setData(Serializable data) {
+    public Builder data(Serializable data) {
       this.data = data;
       return this;
     }

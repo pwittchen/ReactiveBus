@@ -15,6 +15,9 @@
  */
 package com.github.pwittchen.reactivebus.library;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -23,7 +26,7 @@ public class EventTest {
 
   @Test
   public void shouldCreateEvent() {
-    Event event = new Event();
+    Event event = Event.create();
     assertThat(event).isNotNull();
   }
 
@@ -31,10 +34,10 @@ public class EventTest {
   public void shouldCreateEventWithName() {
     String eventName = "test event";
 
-    Event event = new Event.Builder().setName(eventName).build();
+    Event event = Event.name(eventName).build();
 
     assertThat(event).isNotNull();
-    assertThat(event.getName()).isEqualTo(eventName);
+    assertThat(event.name()).isEqualTo(eventName);
     assertThat(event.hasData()).isFalse();
   }
 
@@ -43,11 +46,11 @@ public class EventTest {
     String eventId = "test_id";
     String eventName = "test name";
 
-    Event event = new Event.Builder().setId(eventId).setName(eventName).build();
+    Event event = Event.id(eventId).name(eventName).build();
 
     assertThat(event).isNotNull();
-    assertThat(event.getId()).isEqualTo(eventId);
-    assertThat(event.getName()).isEqualTo(eventName);
+    assertThat(event.id()).isEqualTo(eventId);
+    assertThat(event.name()).isEqualTo(eventName);
     assertThat(event.hasData()).isFalse();
   }
 
@@ -57,13 +60,24 @@ public class EventTest {
     String eventName = "test name";
     TestUtils.SerializableObject data = TestUtils.createSerializableObject();
 
-    Event event = new Event.Builder().setId(eventId).setName(eventName).setData(data).build();
+    Event event = Event.id(eventId).name(eventName).data(data).build();
 
     assertThat(event).isNotNull();
-    assertThat(event.getId()).isEqualTo(eventId);
-    assertThat(event.getName()).isEqualTo(eventName);
+    assertThat(event.id()).isEqualTo(eventId);
+    assertThat(event.name()).isEqualTo(eventName);
     assertThat(event.hasData()).isTrue();
-    assertThat(event.getData()).isEqualTo(data);
+    assertThat(event.data()).isEqualTo(data);
+  }
+
+  @Test
+  public void shouldCreateEventWithData() {
+    TestUtils.SerializableObject data = TestUtils.createSerializableObject();
+
+    Event event = Event.data(data).build();
+
+    assertThat(event).isNotNull();
+    assertThat(event.hasData()).isTrue();
+    assertThat(event.data()).isEqualTo(data);
   }
 
   @Test
@@ -71,8 +85,8 @@ public class EventTest {
     String eventId = "test_id";
     String eventName = "test name";
 
-    Event eventOne = new Event.Builder().setId(eventId).setName(eventName).build();
-    Event eventTwo = new Event.Builder().setId(eventId).setName(eventName).build();
+    Event eventOne = Event.id(eventId).name(eventName).build();
+    Event eventTwo = Event.id(eventId).name(eventName).build();
 
     assertThat(eventOne.equals(eventTwo)).isTrue();
     assertThat(eventOne.hashCode()).isEqualTo(eventTwo.hashCode());
@@ -82,8 +96,8 @@ public class EventTest {
   public void eventsShouldBeDifferentWithDifferentNames() {
     String eventId = "test_id";
 
-    Event eventOne = new Event.Builder().setId(eventId).setName("name 1").build();
-    Event eventTwo = new Event.Builder().setId(eventId).setName("name 2").build();
+    Event eventOne = Event.id(eventId).name("name 1").build();
+    Event eventTwo = Event.id(eventId).name("name 2").build();
 
     assertThat(eventOne.equals(eventTwo)).isFalse();
   }
@@ -92,15 +106,15 @@ public class EventTest {
   public void eventsShouldBeDifferentWithDifferentIds() {
     String eventName = "test name";
 
-    Event eventOne = new Event.Builder().setId("test_id_1").setName(eventName).build();
-    Event eventTwo = new Event.Builder().setId("test_id_2").setName(eventName).build();
+    Event eventOne = Event.id("test_id_1").name(eventName).build();
+    Event eventTwo = Event.id("test_id_2").name(eventName).build();
 
     assertThat(eventOne.equals(eventTwo)).isFalse();
   }
 
   @Test
   public void eventObjectsShouldBeTheSame() {
-    Event eventOne = new Event();
+    Event eventOne = Event.create();
 
     assertThat(eventOne.equals(eventOne)).isTrue();
     assertThat(eventOne.hashCode()).isEqualTo(eventOne.hashCode());
@@ -108,22 +122,22 @@ public class EventTest {
 
   @Test
   public void eventsShouldBeDifferent() {
-    Event eventOne = new Event();
-    Event eventTwo = new Event();
+    Event eventOne = Event.create();
+    Event eventTwo = Event.create();
 
     assertThat(eventOne.equals(eventTwo)).isFalse();
   }
 
   @Test
   public void eventShouldBeDifferentThanNull() {
-    Event eventOne = new Event();
+    Event eventOne = Event.create();
 
     assertThat(eventOne.equals(null)).isFalse();
   }
 
   @Test
   public void eventShouldBeDifferentThanGenericObject() {
-    Event eventOne = new Event();
+    Event eventOne = Event.create();
 
     assertThat(eventOne.equals(new Object())).isFalse();
   }
@@ -134,8 +148,31 @@ public class EventTest {
     String eventId = "test_id";
     String eventName = "test name";
 
-    Event eventOne = new Event.Builder().setId(eventId).setName(eventName).build();
+    Event eventOne = Event.id(eventId).name(eventName).build();
 
     assertThat(eventOne.toString()).isEqualTo("Event {id='test_id', name='test name'}");
+  }
+
+  @Test
+  public void constructorShouldBePrivate() throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<Event> constructor = Event.class.getDeclaredConstructor();
+
+    assertThat(Modifier.isPrivate(constructor.getModifiers())).isTrue();
+
+    constructor.setAccessible(true);
+    constructor.newInstance();
+  }
+
+  @Test
+  public void eventBuilderConstructorShouldBePrivate()
+      throws NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
+    Constructor<Event.Builder> constructor = Event.Builder.class.getDeclaredConstructor();
+
+    assertThat(Modifier.isPrivate(constructor.getModifiers())).isTrue();
+
+    constructor.setAccessible(true);
+    constructor.newInstance();
   }
 }
