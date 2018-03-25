@@ -3,7 +3,7 @@ CHANGELOG
 
 v. 0.0.4
 --------
-*unkown date*
+*25 Mar 2018*
 
 - Replacing factory methods with builder pattern in `Event` class - issue #7, PR #8 
 
