@@ -28,7 +28,7 @@ You can depend on the library through Maven:
 <dependency>
     <groupId>com.github.pwittchen</groupId>
     <artifactId>reactivebus</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
 </dependency>
 <dependency>
     <groupId>io.reactivex.rxjava2</groupId>
@@ -40,7 +40,7 @@ You can depend on the library through Maven:
 or through Gradle:
 
 ```groovy
-implementation 'com.github.pwittchen:reactivebus:0.0.4'
+implementation 'com.github.pwittchen:reactivebus:0.0.5'
 implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
 ```
 
