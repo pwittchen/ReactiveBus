@@ -175,4 +175,19 @@ public class EventTest {
     constructor.setAccessible(true);
     constructor.newInstance();
   }
+
+  @Test
+  public void shouldCreateEventWithNameAndId() {
+    // given
+    String id = "testId";
+    String name = "testName";
+
+    // when
+    Event event = new Event(id, name);
+
+    // then
+    assertThat(event.id()).isEqualTo(id);
+    assertThat(event.name()).isEqualTo(name);
+    assertThat(event.data()).isNull();
+  }
 }
