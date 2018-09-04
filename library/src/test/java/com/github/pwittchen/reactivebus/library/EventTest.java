@@ -154,11 +154,11 @@ public class EventTest {
   }
 
   @Test
-  public void constructorShouldBePrivate() throws NoSuchMethodException, IllegalAccessException,
+  public void constructorShouldBeProtected() throws NoSuchMethodException, IllegalAccessException,
       InvocationTargetException, InstantiationException {
     Constructor<Event> constructor = Event.class.getDeclaredConstructor();
 
-    assertThat(Modifier.isPrivate(constructor.getModifiers())).isTrue();
+    assertThat(Modifier.isProtected(constructor.getModifiers())).isTrue();
 
     constructor.setAccessible(true);
     constructor.newInstance();

@@ -35,7 +35,7 @@ public class Event {
     this.data = data;
   }
 
-  public Event(String id, String name) {
+  protected Event(String id, String name) {
     this(id, name, null);
   }
 
