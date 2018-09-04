@@ -19,31 +19,35 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class Event {
+public class Event {
 
-  private final String id;
-  private final String name;
-  private final Serializable data;
+  protected String id;
+  protected String name;
+  protected Serializable data;
 
   public static Event create() {
     return Event.builder().build();
   }
 
-  private Event(String id, String name, Serializable data) {
+  protected Event(String id, String name, Serializable data) {
     this.id = id;
     this.name = name;
     this.data = data;
   }
 
-  private Event(Builder builder) {
+  public Event(String id, String name) {
+    this(id, name, null);
+  }
+
+  protected Event(Builder builder) {
     this(builder.id, builder.name, builder.data);
   }
 
-  private Event() {
+  protected Event() {
     this(builder());
   }
 
-  private static Builder builder() {
+  protected static Builder builder() {
     return new Builder();
   }
 
@@ -93,7 +97,7 @@ public final class Event {
     return Objects.hash(id, name);
   }
 
-  public final static class Builder {
+  public static class Builder {
     private String id = UUID.randomUUID().toString();
     private String name = "";
     private Serializable data;
