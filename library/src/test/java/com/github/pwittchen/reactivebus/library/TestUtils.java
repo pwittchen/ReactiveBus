@@ -32,6 +32,7 @@ class TestUtils {
   }
 
   static class SerializableObject implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String message;
 
     public SerializableObject() {
@@ -44,6 +45,10 @@ class TestUtils {
 
     public String getMessage() {
       return message;
+    }
+
+    public void setMessage(String message) {
+      this.message = message;
     }
 
     @Override public boolean equals(final Object o) {

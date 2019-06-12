@@ -24,6 +24,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 public class EventTest {
 
+  private transient String eventId = "test_id";
+  private transient String eventName = "test event";
+
   @Test
   public void shouldCreateEvent() {
     Event event = Event.create();
@@ -32,8 +35,6 @@ public class EventTest {
 
   @Test
   public void shouldCreateEventWithName() {
-    String eventName = "test event";
-
     Event event = Event.name(eventName).build();
 
     assertThat(event).isNotNull();
@@ -43,9 +44,6 @@ public class EventTest {
 
   @Test
   public void shouldCreateEventWithIdAndName() {
-    String eventId = "test_id";
-    String eventName = "test name";
-
     Event event = Event.id(eventId).name(eventName).build();
 
     assertThat(event).isNotNull();
@@ -56,8 +54,6 @@ public class EventTest {
 
   @Test
   public void shouldCreateEventWithIdNameAndData() {
-    String eventId = "test_id";
-    String eventName = "test name";
     TestUtils.SerializableObject data = TestUtils.createSerializableObject();
 
     Event event = Event.id(eventId).name(eventName).data(data).build();
@@ -82,9 +78,6 @@ public class EventTest {
 
   @Test
   public void eventsShouldBeTheSame() {
-    String eventId = "test_id";
-    String eventName = "test name";
-
     Event eventOne = Event.id(eventId).name(eventName).build();
     Event eventTwo = Event.id(eventId).name(eventName).build();
 
@@ -94,8 +87,6 @@ public class EventTest {
 
   @Test
   public void eventsShouldBeDifferentWithDifferentNames() {
-    String eventId = "test_id";
-
     Event eventOne = Event.id(eventId).name("name 1").build();
     Event eventTwo = Event.id(eventId).name("name 2").build();
 
@@ -104,8 +95,6 @@ public class EventTest {
 
   @Test
   public void eventsShouldBeDifferentWithDifferentIds() {
-    String eventName = "test name";
-
     Event eventOne = Event.id("test_id_1").name(eventName).build();
     Event eventTwo = Event.id("test_id_2").name(eventName).build();
 
@@ -132,7 +121,7 @@ public class EventTest {
   public void eventShouldBeDifferentThanNull() {
     Event eventOne = Event.create();
 
-    assertThat(eventOne.equals(null)).isFalse();
+    assertThat(eventOne.equals(null)).isFalse(); //NOPMD
   }
 
   @Test

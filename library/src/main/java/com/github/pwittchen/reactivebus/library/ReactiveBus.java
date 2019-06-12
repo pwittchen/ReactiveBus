@@ -23,7 +23,7 @@ import io.reactivex.subjects.Subject;
 
 public class ReactiveBus implements Bus {
 
-  private final Subject<Object> bus = PublishSubject.create().toSerialized();
+  private final transient Subject<Object> bus = PublishSubject.create().toSerialized();
 
   public static ReactiveBus create() {
     return new ReactiveBus();

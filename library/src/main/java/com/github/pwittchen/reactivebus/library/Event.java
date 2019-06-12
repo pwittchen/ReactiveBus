@@ -21,9 +21,9 @@ import java.util.UUID;
 
 public class Event {
 
-  protected String id;
-  protected String name;
-  protected Serializable data;
+  protected String id; //NOPMD
+  protected String name; //NOPMD
+  protected Serializable data; //NOPMD
 
   public static Event create() {
     return Event.builder().build();
@@ -98,9 +98,9 @@ public class Event {
   }
 
   public static class Builder {
-    private String id = UUID.randomUUID().toString();
-    private String name = "";
-    private Serializable data;
+    private String id = UUID.randomUUID().toString(); //NOPMD
+    private String name = ""; //NOPMD
+    private Serializable data; //NOPMD
 
     private Builder() {
     }
