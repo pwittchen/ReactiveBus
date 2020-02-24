@@ -9,7 +9,7 @@ apply from: '../maven_push.gradle'
 sourceCompatibility = 1.7
 
 dependencies {
-  implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
+  implementation 'io.reactivex.rxjava2:rxjava:2.2.18'
   testImplementation 'junit:junit:4.13'
   testImplementation 'com.google.truth:truth:1.0.1'
 }
